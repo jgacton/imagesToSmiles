@@ -1,16 +1,16 @@
-import os
+#import os
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 from pathlib import Path
 
-from rdkit import Chem
+#from rdkit import Chem
 
 import tensorflow as tf
-from tensorflow import keras
+import tensorflow.keras
 from tensorflow.keras import layers, models
 
-from PIL.PngImagePlugin import PngImageFile, PngInfo
+from PIL.PngImagePlugin import PngImageFile#, PngInfo
 
 data_dir = Path("./imagesFromSmilesLite/")
 
@@ -253,7 +253,7 @@ def build_model(d1, d2, kernel_size):
     )
 
     # Optimizer
-    opt = keras.optimizers.Adam()
+    opt = tensorflow.keras.optimizers.Adam()
     # Compile the model and return
     model.compile(optimizer=opt, loss="categorical_crossentropy")
     return model
@@ -274,7 +274,7 @@ validation_dataset = encode_samples(x_valid, y_valid)
 print(train_dataset["output_label"].shape)
 # Train the model
 callbacks = [
-    keras.callbacks.ModelCheckpoint("save_at_{epoch}.h5", save_weights_only=True),
+    tensorflow.keras.callbacks.ModelCheckpoint("save_at_{epoch}.h5", save_weights_only=True),
 ]
 history = model.fit(
     [train_dataset["image"], train_dataset["input_label"]],
@@ -284,7 +284,7 @@ history = model.fit(
     callbacks=callbacks,
 )
 
-prediction_model = keras.models.Model(
+prediction_model = tensorflow.keras.models.Model(
     model.get_layer(name="image").input, model.get_layer(name="output_label").output
 )
 prediction_model.summary()
